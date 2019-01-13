@@ -35,6 +35,8 @@ ShortestPathCalculator::~ShortestPathCalculator()
 {
 }
 
+// Attempts to findd the shortest path from `startNode` to `endNode`. This method
+// implements Dijkstra's Algorithm using a min priority queue.
 const shared_ptr<const ShortestPath> ShortestPathCalculator::Calculate(node startNode, node endNode)
 {
     auto graph = weakGraph.lock();
