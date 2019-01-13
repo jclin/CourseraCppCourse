@@ -7,6 +7,7 @@ namespace Homework { namespace ShortestPath
     using namespace std;
     using namespace Utils;
 
+    // Represents an undirected graph.
     class Graph final
     {
     public:

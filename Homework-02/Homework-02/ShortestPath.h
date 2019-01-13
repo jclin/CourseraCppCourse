@@ -13,7 +13,8 @@ namespace Homework { namespace ShortestPath
     using namespace std;
     using namespace Homework::ShortestPath::Utils;
 
-    class ShortestPath final : deque<node_and_edge_weight>
+    // Represents the shortest path found from one node to another of a graph.
+    class ShortestPath final
     {
     public:
         // Client functionality
@@ -27,11 +28,13 @@ namespace Homework { namespace ShortestPath
         {
         }
 
+        // Returns the number of edges traveled.
         inline unsigned int Length() const
         {
             return pathTraveled.size();
         }
 
+        // Returns the total distance of the path.
         inline distance_from_start TotalDistance() const
         {
             return totalDistance;

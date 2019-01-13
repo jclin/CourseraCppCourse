@@ -31,6 +31,8 @@ edge_weight PickEdgeWeight(std::pair<edge_weight, edge_weight> edgeWeightRange)
     return distribution(Generator);
 }
 
+// Builds a graph with the desired `numNodes`, `density`, and weight range for each edge.
+// See the comments of `FindShortestPaths` for more details.
 shared_ptr<Graph> BuildGraph(unsigned int numNodes, double density, std::pair<edge_weight, edge_weight> edgeWeightRange)
 {
     // NOTE: I originally populated the edges by calculating the probability
@@ -86,6 +88,7 @@ shared_ptr<Graph> BuildGraph(unsigned int numNodes, double density, std::pair<ed
     return std::move(graph);
 }
 
+// Returns the average distance of the `shortestPaths`.
 inline double Average(const vector<shared_ptr<const ShortestPath>>& shortestPaths)
 {
     distance_from_start totalDistances = 0;
@@ -97,6 +100,18 @@ inline double Average(const vector<shared_ptr<const ShortestPath>>& shortestPath
     return totalDistances / static_cast<double>(shortestPaths.size());
 }
 
+// Finds and returns a vector of the `ShortestPath`s for a graph with the specified parameters.
+// The function will attempt to find the path from node 0 to every other node.
+//
+// Parameters:
+// - `numNodes` indicates how many nodes the graph will have.
+// - `density` is a value between 0 and 1, inclusive. This specifies how many edges the graph
+//   can have out of the max number of possible edges. For example, for a graph of 50 nodes, its
+//   max # of edges is 1,225 using the formula:
+//      (N*(N-1))/2
+//   if `density` is 0.2, then the graph will have 245 of those edges randomly picked.
+// - `edgeWeightRange` specifies the minimum and maximum weight of each edge. The value assigned
+//   is picked at random from that range.
 vector<shared_ptr<const ShortestPath>> FindShortestPaths(unsigned int numNodes, double density, std::pair<edge_weight, edge_weight> edgeWeightRange)
 {
     auto graph = BuildGraph(numNodes, density, edgeWeightRange);
@@ -110,6 +125,7 @@ vector<shared_ptr<const ShortestPath>> FindShortestPaths(unsigned int numNodes, 
         auto shortestPath = calculator.Calculate(startNode, endNode);
         if (shortestPath == nullptr)
         {
+            // No path exists.
             continue;
         }
 
@@ -119,6 +135,7 @@ vector<shared_ptr<const ShortestPath>> FindShortestPaths(unsigned int numNodes, 
     return std::move(shortestPaths);
 }
 
+// Prints statistics of the calculated `shortestPaths`.
 void PrintStats(unsigned int numNodes, double density, std::pair<edge_weight, edge_weight> edgeWeightRange, const vector<shared_ptr<const ShortestPath>>& shortestPaths)
 {
     cout << std::fixed;

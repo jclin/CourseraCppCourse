@@ -11,6 +11,7 @@ namespace Homework { namespace ShortestPath
     class Graph;
     class ShortestPath;
 
+    // Calculates the shortest path from one node to another for a specified `graph`.
     class ShortestPathCalculator final
     {
     public:
